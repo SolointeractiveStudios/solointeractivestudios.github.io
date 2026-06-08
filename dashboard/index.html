@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Solo Interactive Studios — Dashboard (About)</title>
+	<style>
+		body{font-family:Segoe UI, Roboto, Arial, sans-serif;margin:0;padding:0;background:#f6f7fb;color:#222}
+		.container{max-width:980px;margin:48px auto;padding:28px;background:#fff;border-radius:8px;box-shadow:0 6px 18px rgba(20,30,60,0.08)}
+		h1{margin:0 0 8px;font-size:22px}
+		p.lead{margin:0 0 18px;color:#4b5563}
+		section{margin:20px 0}
+		.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+		.card{background:#fbfdff;border:1px solid #e6eef9;padding:14px;border-radius:6px}
+		ul{margin:8px 0 0 18px}
+		code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-family:monospace}
+		footer{margin-top:22px;font-size:13px;color:#6b7280}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<h1>Dashboard — About</h1>
+			<p class="lead">Brief overview of how the dashboard is structured and what it can do. This page describes layout, components and capabilities — not a live dashboard.</p>
+		</header>
+
+		<section>
+			<h2>Purpose</h2>
+			<p>The dashboard provides a unified view of application data, administration tools, and quick actions. It is designed for fast situational awareness, task execution, and basic analytics.</p>
+		</section>
+
+		<section>
+			<h2>General layout</h2>
+			<div class="grid">
+				<div class="card">
+					<strong>Top navigation</strong>
+					<p>Global navigation, search, profile and notifications.</p>
+				</div>
+				<div class="card">
+					<strong>Left sidebar</strong>
+					<p>Primary sections and quick links (Projects, Metrics, Settings, Users).</p>
+				</div>
+				<div class="card">
+					<strong>Main canvas</strong>
+					<p>Customizable widgets, charts and lists where the primary content is shown.</p>
+				</div>
+				<div class="card">
+					<strong>Context panel</strong>
+					<p>Details, filters, and contextual actions related to selected items on the main canvas.</p>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2>Key capabilities</h2>
+			<ul>
+				<li>Overview tiles for KPIs and system status.</li>
+				<li>Charts and time-series visualization for trends and usage.</li>
+				<li>Interactive lists with sorting, filtering and bulk actions.</li>
+				<li>Quick actions and command palette for power users.</li>
+				<li>Role-based UI: different controls for admins, managers and viewers.</li>
+				<li>Exporting and sharing of reports (CSV, PDF, shareable links).</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>Widgets & components</h2>
+			<div class="grid">
+				<div class="card">
+					<strong>Metric tile</strong>
+					<p>Single-value KPI with sparkline and percentage change.</p>
+				</div>
+				<div class="card">
+					<strong>Time-series chart</strong>
+					<p>Line/area charts with hover tooltips and zoom controls.</p>
+				</div>
+				<div class="card">
+					<strong>Activity feed</strong>
+					<p>Chronological list of events and audit details.</p>
+				</div>
+				<div class="card">
+					<strong>Configuration panel</strong>
+					<p>Inline settings and preference toggles for a selected module.</p>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2>Security & privacy</h2>
+			<p>Authentication, role-based access control and audit logs are available to protect data. Sensitive operations require confirmation and elevated privileges.</p>
+		</section>
+
+		<section>
+			<h2>Extensibility</h2>
+			<p>The dashboard is modular and supports additional widgets, integrations and custom connectors to external services.</p>
+		</section>
+
+		<footer>
+			Last updated: <span><code>About page</code></span> — Solo Interactive Studios
+		</footer>
+	</div>
+</body>
+</html>

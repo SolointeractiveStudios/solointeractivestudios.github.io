@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio API Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
+    header {
+      background: #1c1f26;
+      color: #fff;
+      padding: 20px 24px;
+      border-bottom: 4px solid #4a90e2;
+    }
+    main {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 24px 40px;
+    }
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+    section {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+    .api-code {
+      background: #1e1e1e;
+      color: #dcdcdc;
+      padding: 14px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: Consolas, monospace;
+      font-size: 0.95rem;
+    }
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: 600;
+    }
+    select, input[type="text"], button {
+      width: 100%;
+      max-width: 520px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      background: #4a90e2;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    button:hover {
+      background: #367cd6;
+    }
+    .dropdown-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .code-block {
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Studio API Reference</h1>
+    <p>Basic API usage guide and interactive sections for backend links, general calls, and rich presence.</p>
+  </header>
+  <main>
+    <section>
+      <h2>Basic API Usage</h2>
+      <p>Use these endpoints to connect your backend to the Studio API. Replace the placeholders with your own values and call from your server environment.</p>
+      <div class="api-code">
+        <code>const response = await fetch('https://api.studio.example.com/v1/test', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  }
+});
+const data = await response.json();
+console.log(data);
+</code>
+      </div>
+      <p>Backend link examples:</p>
+      <ul>
+        <li><strong>GET</strong> /v1/account/status</li>
+        <li><strong>POST</strong> /v1/session/create</li>
+        <li><strong>PUT</strong> /v1/profile/update</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>General API Calls</h2>
+      <div class="dropdown-row">
+        <div>
+          <label for="general-call">Choose a general call</label>
+          <select id="general-call">
+            <option value="status">Get API Status</option>
+            <option value="user">Get User Info</option>
+            <option value="projects">List Projects</option>
+            <option value="logs">Fetch Recent Logs</option>
+          </select>
+        </div>
+        <div>
+          <label for="api-key">API Key</label>
+          <input id="api-key" type="text" placeholder="Enter API key" />
+        </div>
+        <button id="show-general">Show Request Example</button>
+      </div>
+      <div class="code-block api-code" id="general-code">
+        <code>Select a request from the dropdown to view the example.</code>
+      </div>
+    </section>
+
+    <section>
+      <h2>Rich Presence</h2>
+      <p>Add rich presence information for your application to show live status, active project, or custom details.</p>
+      <div class="api-code">
+        <code>const presence = {
+  status: 'Editing project',
+  details: 'Working on Studio API integration',
+  project: 'TheInsecureCalculator',
+  startedAt: new Date().toISOString()
+};
+
+const response = await fetch('https://api.studio.example.com/v1/presence/update', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(presence)
+});
+</code>
+      </div>
+      <p>Rich presence data supports custom state, timestamps, and project metadata.</p>
+    </section>
+
+    <section>
+      <h2>Additional Info</h2>
+      <p>Use the sections above to build backend integration quickly. The general section provides dropdown-driven examples for common API calls. The rich presence section shows how to update user session status and metadata.</p>
+    </section>
+  </main>
+  <script>
+    const generalCallSelect = document.getElementById('general-call');
+    const generalCode = document.getElementById('general-code');
+    const showGeneralButton = document.getElementById('show-general');
+
+    const examples = {
+      status: `GET https://api.studio.example.com/v1/status\nHeaders:\n  Authorization: Bearer YOUR_API_KEY`,
+      user: `GET https://api.studio.example.com/v1/user/me\nHeaders:\n  Authorization: Bearer YOUR_API_KEY`,
+      projects: `GET https://api.studio.example.com/v1/projects\nHeaders:\n  Authorization: Bearer YOUR_API_KEY`,
+      logs: `GET https://api.studio.example.com/v1/logs/recent\nHeaders:\n  Authorization: Bearer YOUR_API_KEY`
+    };
+
+    showGeneralButton.addEventListener('click', () => {
+      const value = generalCallSelect.value;
+      generalCode.textContent = examples[value] || 'Select a request from the dropdown to view the example.';
+    });
+  </script>
+</body>
+</html>

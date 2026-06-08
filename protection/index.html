@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protection System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: #eaeaea;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        h1, h2 {
+            margin: 0 0 15px;
+        }
+        p {
+            line-height: 1.7;
+            margin: 0 0 18px;
+        }
+        .box {
+            background: #1f1f1f;
+            border: 1px solid #2f2f2f;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .note {
+            color: #a9a9a9;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Protection Overview</h1>
+            <p>This page describes the structure of the protection system without exposing implementation details.</p>
+        </header>
+        <section class="box">
+            <h2>Protection System</h2>
+            <p>The protection system is designed to monitor key actions, validate expected behavior, and prevent unauthorized changes. It operates at a high level, using multiple layers to ensure the application remains guarded against tampering.</p>
+            <p class="note">Note: Specific security checks and internal logic are intentionally omitted.</p>
+        </section>
+        <section class="box">
+            <h2>Subsystems</h2>
+            <p>Each subsystem handles a focused area of protection. This includes integrity monitoring, configuration validation, and runtime checks. These subsystems work together while maintaining separation so that one layer can defend against threats even if another is bypassed.</p>
+        </section>
+        <section class="box">
+            <h2>How It Works</h2>
+            <p>The system detects anomalies by comparing current state against expected state and triggers safe responses when discrepancies are found. The workflow is built around resilience, with each component performing a specific role in the overall protection strategy.</p>
+            <p class="note">The purpose of this page is to provide a conceptual layout of the protection architecture, not a full implementation guide.</p>
+        </section>
+    </div>
+</body>
+</html>
