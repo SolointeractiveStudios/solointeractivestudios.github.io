@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosystem Layout</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .ecosystem {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .organism {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .organism:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .organism-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .organism-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .organism-role {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .producer {
+            border-left: 5px solid #4CAF50;
+        }
+
+        .consumer {
+            border-left: 5px solid #FF9800;
+        }
+
+        .decomposer {
+            border-left: 5px solid #9C27B0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solo Interactive Ecosystem</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,Arial,sans-serif;
+    background:#050505;
+    color:white;
+    min-height:100vh;
+    padding:60px 20px;
+    position:relative;
+    overflow-x:hidden;
+}
+
+/* Purple glow */
+body::before{
+    content:"";
+    position:fixed;
+    width:600px;
+    height:600px;
+    background:#8b5cf6;
+    filter:blur(220px);
+    opacity:.12;
+    top:-200px;
+    right:-200px;
+    border-radius:50%;
+    pointer-events:none;
+}
+
+/* Blue glow */
+body::after{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    background:#2563eb;
+    filter:blur(220px);
+    opacity:.08;
+    bottom:-200px;
+    left:-200px;
+    border-radius:50%;
+    pointer-events:none;
+}
+
+.container{
+    max-width:1400px;
+    margin:auto;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.title h1{
+    font-size:3rem;
+    margin-bottom:10px;
+}
+
+.title p{
+    color:#9ca3af;
+}
+
+.ecosystem{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:18px;
+}
+
+.node{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:24px;
+    padding:22px;
+    transition:.25s;
+    backdrop-filter:blur(20px);
+}
+
+.node:hover{
+    transform:translateY(-6px);
+    border-color:#8b5cf6;
+}
+
+.node-icon{
+    font-size:2.5rem;
+    margin-bottom:15px;
+}
+
+.node-title{
+    font-size:1.4rem;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.node-description{
+    color:#9ca3af;
+    line-height:1.6;
+}
+
+.core{
+    border:1px solid rgba(139,92,246,.5);
+    background:rgba(139,92,246,.08);
+}
+
+.games{
+    border-left:4px solid #22c55e;
+}
+
+.software{
+    border-left:4px solid #3b82f6;
+}
+
+.backend{
+    border-left:4px solid #f59e0b;
+}
+
+.tools{
+    border-left:4px solid #ef4444;
+}
+/* Animated grid */
+
+.background-grid{
+    position:fixed;
+    inset:0;
+
+    background:
+        linear-gradient(
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        );
+
+    background-size:50px 50px;
+
+    z-index:-3;
+
+    animation:gridMove 30s linear infinite;
+}
+
+@keyframes gridMove{
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(50px);
+    }
+}
+
+/* Floating particles */
+
+.particles{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-2;
+}
+
+.particles span{
+    position:absolute;
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:#8b5cf6;
+    box-shadow:0 0 12px #8b5cf6;
+}
+
+.particles span:nth-child(1){
+    left:15%;
+    top:70%;
+    animation:float 18s infinite linear;
+}
+
+.particles span:nth-child(2){
+    left:40%;
+    top:85%;
+    animation:float 22s infinite linear;
+}
+
+.particles span:nth-child(3){
+    left:60%;
+    top:75%;
+    animation:float 16s infinite linear;
+}
+
+.particles span:nth-child(4){
+    left:80%;
+    top:90%;
+    animation:float 24s infinite linear;
+}
+
+.particles span:nth-child(5){
+    left:30%;
+    top:95%;
+    animation:float 20s infinite linear;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(0);
+        opacity:0;
+    }
+
+    20%{
+        opacity:1;
+    }
+
+    80%{
+        opacity:1;
+    }
+
+    to{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
+
+</style>
+
+</head>
+<body>
+<div class="background-grid"></div>
+
+<div class="particles">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div class="container">
+
+<div class="title">
+    <h1>Solo Interactive Ecosystem</h1>
+    <p>Games, software, backend services and tools working together.</p>
+</div>
+
+<div class="ecosystem">
+
+<div class="node core">
+    <div class="node-icon">🚀</div>
+    <div class="node-title">Solo Interactive Studios</div>
+    <div class="node-description">
+        The central hub powering all games, services, tools and infrastructure.
+    </div>
+</div>
+
+<div class="node games">
+    <div class="node-icon">🎮</div>
+    <div class="node-title">Ball Run</div>
+    <div class="node-description">
+        Multiplayer obstacle racing game with live sessions, progression and seasonal content.
+    </div>
+</div>
+
+<div class="node games">
+    <div class="node-icon">⚡</div>
+    <div class="node-title">Ball Run 2</div>
+    <div class="node-description">
+        The next evolution of Ball Run featuring improved systems and gameplay.
+    </div>
+</div>
+
+<div class="node software">
+    <div class="node-icon">💻</div>
+    <div class="node-title">Game Launcher</div>
+    <div class="node-description">
+        Downloads, updates and launches Solo Interactive games and applications.
+    </div>
+</div>
+
+<div class="node backend">
+    <div class="node-icon">🌐</div>
+    <div class="node-title">Studio API</div>
+    <div class="node-description">
+        Central backend handling authentication, game data, updates and communication.
+    </div>
+</div>
+
+<div class="node backend">
+    <div class="node-icon">🗄️</div>
+    <div class="node-title">Database Platform</div>
+    <div class="node-description">
+        Stores accounts, purchases, game progress, statistics and server data.
+    </div>
+</div>
+
+<div class="node tools">
+    <div class="node-icon">📊</div>
+    <div class="node-title">Admin Dashboard</div>
+    <div class="node-description">
+        Manage players, sessions, analytics, shop rotations and studio operations.
+    </div>
+</div>
+
+<div class="node tools">
+    <div class="node-icon">🛡️</div>
+    <div class="node-title">Website Protection</div>
+    <div class="node-description">
+        Live monitoring, security scanning and automated website protection. Built in-house to safeguard our online presence.
+    </div>
+</div>
+
+<div class="node backend">
+    <div class="node-icon">🖥️</div>
+    <div class="node-title">Dedicated Game Servers</div>
+    <div class="node-description">
+        Dedicated infrastructure powering multiplayer sessions and matchmaking.
+    </div>
+</div>
+
+<div class="node backend">
+    <div class="node-icon">🖥️</div>
+    <div class="node-title">Custom Rich Presence</div>
+    <div class="node-description">
+        Dedicated service for rich presence, player status and game session information.
+    </div>
+</div>
+</body>
+</html>
+</body>
+</html>

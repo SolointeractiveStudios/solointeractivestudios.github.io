@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solo Interactive Studios</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#050505;
+    --card:rgba(255,255,255,.04);
+    --border:rgba(255,255,255,.08);
+    --text:#ffffff;
+    --muted:#9ca3af;
+    --accent:#8b5cf6;
+    --accent2:#6d28d9;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    width:700px;
+    height:700px;
+    background:var(--accent);
+    border-radius:50%;
+    filter:blur(250px);
+    opacity:.15;
+    top:-250px;
+    right:-200px;
+    z-index:-1;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    width:600px;
+    height:600px;
+    background:#2563eb;
+    border-radius:50%;
+    filter:blur(250px);
+    opacity:.08;
+    bottom:-250px;
+    left:-200px;
+    z-index:-1;
+}
+
+.container{
+    max-width:1300px;
+    margin:auto;
+    padding:0 32px;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:28px 0;
+    position:sticky;
+    top:0;
+    backdrop-filter:blur(20px);
+    background:rgba(5,5,5,.65);
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.logo-box{
+    width:46px;
+    height:46px;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+}
+
+.logo h3{
+    font-size:1rem;
+}
+
+.logo p{
+    color:var(--muted);
+    font-size:.85rem;
+}
+
+nav{
+    display:flex;
+    gap:28px;
+}
+
+nav a{
+    color:var(--muted);
+    text-decoration:none;
+    transition:.2s;
+}
+
+nav a:hover{
+    color:white;
+}
+
+.hero{
+    min-height:80vh;
+    display:flex;
+    align-items:center;
+}
+
+.hero-content{
+    max-width:850px;
+}
+
+.badge{
+    display:inline-block;
+    padding:8px 16px;
+    border-radius:999px;
+    background:rgba(139,92,246,.15);
+    border:1px solid rgba(139,92,246,.3);
+    color:#c4b5fd;
+    margin-bottom:24px;
+}
+
+.hero h1{
+    font-size:clamp(3rem,8vw,6rem);
+    line-height:1;
+    margin-bottom:20px;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:1.2rem;
+    max-width:700px;
+    line-height:1.7;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:16px;
+    margin-top:36px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    text-decoration:none;
+    padding:14px 24px;
+    border-radius:12px;
+    font-weight:600;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:white;
+}
+
+.btn-secondary{
+    background:var(--card);
+    border:1px solid var(--border);
+    color:white;
+}
+
+.section{
+    padding:80px 0;
+}
+
+.section-title{
+    font-size:2rem;
+    margin-bottom:12px;
+}
+
+.section-subtitle{
+    color:var(--muted);
+    margin-bottom:40px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:24px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:28px;
+    backdrop-filter:blur(20px);
+    transition:.25s;
+    text-decoration:none;
+    color:white;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(139,92,246,.4);
+}
+
+.card-tag{
+    color:#c4b5fd;
+    font-size:.8rem;
+    font-weight:700;
+    letter-spacing:1px;
+    margin-bottom:12px;
+}
+
+.card h3{
+    margin-bottom:12px;
+    font-size:1.4rem;
+}
+
+.card p{
+    color:var(--muted);
+    line-height:1.6;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.stat{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:30px;
+}
+
+.stat-number{
+    font-size:2rem;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.stat-label{
+    color:var(--muted);
+}
+
+.quick-links{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:16px;
+}
+
+.quick-link{
+    padding:18px;
+    border-radius:14px;
+    background:var(--card);
+    border:1px solid var(--border);
+    text-decoration:none;
+    color:white;
+    transition:.2s;
+}
+
+.quick-link:hover{
+    border-color:rgba(139,92,246,.5);
+}
+
+footer{
+    padding:40px 0;
+    border-top:1px solid var(--border);
+    color:var(--muted);
+    text-align:center;
+}
+
+@media(max-width:768px){
+
+    nav{
+        display:none;
+    }
+
+    .hero{
+        min-height:auto;
+        padding:80px 0;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+    }
+
+    .btn{
+        text-align:center;
+    }
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<header>
+
+<div class="logo">
+<div class="logo-box">SI</div>
+<div>
+<h3>Solo Interactive Studios</h3>
+<p>Games • Software • Experiences</p>
+</div>
+</div>
+
+<nav>
+<a href="#projects">Projects</a>
+<a href="#status">Studio</a>
+<a href="#links">Links</a>
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<div class="badge">
+INDEPENDENT GAME & SOFTWARE STUDIO
+</div>
+
+<h1>
+Building Games,<br>
+Software &<br>
+Interactive Experiences.
+</h1>
+
+<p>
+Solo Interactive Studios develops multiplayer games, launchers,
+backend systems, developer tools and digital experiences designed
+to bring ideas to life. Created by a small team of passionate developers.
+</p>
+
+<div class="hero-buttons">
+<a href="#projects" class="btn btn-primary">Explore Projects</a>
+</div>
+
+</div>
+
+</section>
+
+<section id="projects" class="section">
+
+<h2 class="section-title">Featured Projects</h2>
+<p class="section-subtitle">
+Explore active games, software and internal tools.
+</p>
+
+<div class="grid">
+
+<a href="/ballrun" class="card">
+<div class="card-tag">GAME</div>
+<h3>Ball Run</h3>
+<p>
+Fast-paced multiplayer obstacle chaos featuring competitive gameplay and evolving content.
+</p>
+</a>
+
+<a href="/ballrun2" class="card">
+<div class="card-tag">GAME</div>
+<h3>Ball Run 2</h3>
+<p>
+The next generation of Ball Run currently under development.
+</p>
+</a>
+
+<a href="/launcher" class="card">
+<div class="card-tag">SOFTWARE</div>
+<h3>Solo Launcher</h3>
+<p>
+A central hub for downloading, updating and managing Solo Interactive titles.
+</p>
+</a>
+
+<a href="/dashboard" class="card">
+<div class="card-tag">TOOLS</div>
+<h3>Developer Dashboard</h3>
+<p>
+Internal management tools, analytics, server controls and administration systems.
+</p>
+</a>
+
+<a href="/protection" class="card">
+<div class="card-tag">SECURITY</div>
+<h3>Website Protection</h3>
+<p>
+Real-time website monitoring, scanning and automated protection systems.
+</p>
+</a>
+
+<a href="/api" class="card">
+<div class="card-tag">BACKEND</div>
+<h3>Studio API</h3>
+<p>
+Centralized backend services powering games, launchers and studio platforms.
+</p>
+</a>
+
+</div>
+
+</section>
+
+<section id="status" class="section">
+
+<h2 class="section-title">Studio Status</h2>
+<p class="section-subtitle">
+Live overview of the studio ecosystem.
+</p>
+
+<div class="stats">
+
+<div class="stat">
+<div class="stat-number">04</div>
+<div class="stat-label">Active Projects</div>
+</div>
+
+<div class="stat">
+<div class="stat-number">02</div>
+<div class="stat-label">Games Released</div>
+</div>
+
+<div class="stat">
+<div class="stat-number">99.9%</div>
+<div class="stat-label">Backend Uptime</div>
+</div>
+
+<div class="stat">
+<div class="stat-number">ONLINE</div>
+<div class="stat-label">Studio Systems</div>
+</div>
+
+</div>
+
+</section>
+
+<section id="links" class="section">
+
+<h2 class="section-title">Quick Access</h2>
+<p class="section-subtitle">
+Useful links, studio resources and other projects.
+</p>
+
+<div class="quick-links">
+
+<a href="/ecosystem" class="quick-link">
+Solo Interactive Studios Ecosystem
+</a>
+<a href="https://solointeractivestudios.github.io/TheInsecureCalculator/" class="quick-link">
+The Insecure Calculator
+</a>
+
+<!--Copy the button section for adding more buttons/links if needed-->
+
+</div>
+
+</section>
+
+<footer>
+© 2026 Solo Interactive Studios. All rights reserved.
+</footer>
+
+</div>
+
+</body>
+</html>
