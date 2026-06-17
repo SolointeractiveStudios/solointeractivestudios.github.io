@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solo Interactive — Comms Platform Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg: #0E1A2B;
+    --panel: #16243C;
+    --panel-border: rgba(94,200,216,0.16);
+    --grid-line: rgba(94,200,216,0.055);
+    --text-primary: #EDF2F6;
+    --text-secondary: #93A8BD;
+    --text-tertiary: #6B8098;
+    --accent-cyan: #5EC8D8;
+    --accent-amber: #E8A33D;
+    --accent-teal: #4FB286;
+    --status-not-started: #5C6B7A;
+    --status-in-progress: #E8A33D;
+    --status-complete: #4FB286;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --max-width: 880px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 28px 28px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a{ color: var(--accent-cyan); }
+
+  button{ font-family: inherit; }
+  button:focus-visible, a:focus-visible{
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 2px;
+  }
+
+  .wrap{
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ---------- HERO ---------- */
+
+  .hero{
+    padding: 56px 0 28px;
+    text-align: center;
+  }
+
+  .hero-eyebrow{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-cyan);
+    margin: 0 0 14px;
+  }
+
+  .hero h1{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1.15;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .hero p{
+    color: var(--text-secondary);
+    font-size: 15px;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .schematic{
+    margin: 40px auto 8px;
+    max-width: 720px;
+  }
+  .schematic svg{ width: 100%; height: auto; display: block; }
+
+  .node-box{ fill: var(--panel); stroke: var(--panel-border); stroke-width: 1.5; }
+  .node-box.hub{ stroke: var(--accent-cyan); stroke-width: 2; }
+  .node-box.focus{ stroke: var(--accent-amber); stroke-width: 2; }
+  .node-label{ font-family: var(--font-mono); font-size: 13px; fill: var(--text-primary); text-anchor: middle; }
+  .node-label.small{ font-size: 10px; fill: var(--text-secondary); }
+  .trace{ stroke: var(--panel-border); stroke-width: 1.5; fill: none; }
+  .trace.focus{ stroke: var(--accent-amber); stroke-width: 1.5; }
+  .tick{ fill: var(--accent-amber); }
+
+  /* ---------- PROGRESS OVERVIEW ---------- */
+
+  .progress-card{
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin: 36px 0 8px;
+  }
+
+  .progress-top{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .progress-top .label{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .progress-top .count{
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .progress-top .count span{ color: var(--accent-teal); }
+
+  .segments{
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 4px;
+  }
+
+  .segment{
+    height: 8px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.08);
+    transition: background-color 0.25s ease;
+  }
+  .segment.is-complete{ background: var(--accent-teal); }
+  .segment.is-progress{ background: var(--accent-amber); }
+
+  .legend{
+    display:flex;
+    gap: 18px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-secondary);
+  }
+  .legend-item{ display:flex; align-items:center; gap: 7px; }
+  .legend-dot{ width: 8px; height: 8px; border-radius: 50%; flex-shrink:0; }
+
+  .update-note{
+    font-size: 12.5px;
+    color: var(--text-tertiary);
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--panel-border);
+  }
+  .update-note code{
+    font-family: var(--font-mono);
+    background: rgba(94,200,216,0.08);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: var(--accent-cyan);
+    font-size: 11.5px;
+  }
+
+  /* ---------- TIMELINE ---------- */
+
+  .timeline{
+    position: relative;
+    margin-top: 48px;
+    padding-left: 46px;
+  }
+
+  .timeline::before{
+    content:"";
+    position: absolute;
+    left: 14px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent-cyan), var(--panel-border) 92%);
+  }
+
+  .phase{
+    position: relative;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .phase.in-view{ opacity: 1; transform: translateY(0); }
+
+  .phase-node{
+    position: absolute;
+    left: -46px;
+    top: 2px;
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    background: var(--panel);
+    border: 1.5px solid var(--accent-cyan);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent-cyan);
+  }
+
+  .phase-card{
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 22px 24px;
+  }
+
+  .phase-head{
+    display:flex;
+    justify-content: space-between;
+    align-items:flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+
+  .phase-title{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 19px;
+    margin: 0;
+  }
+  .phase-title .num{ color: var(--text-tertiary); font-weight: 500; }
+
+  .status-badge{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: filter 0.15s ease;
+  }
+  .status-badge:hover{ filter: brightness(1.15); }
+
+  .status-badge[data-status="not-started"]{
+    color: var(--status-not-started);
+    border-color: var(--status-not-started);
+    background: rgba(92,107,122,0.1);
+  }
+  .status-badge[data-status="in-progress"]{
+    color: var(--status-in-progress);
+    border-color: var(--status-in-progress);
+    background: rgba(232,163,61,0.1);
+  }
+  .status-badge[data-status="complete"]{
+    color: var(--status-complete);
+    border-color: var(--status-complete);
+    background: rgba(79,178,134,0.1);
+  }
+
+  .phase-goal{
+    color: var(--text-secondary);
+    font-size: 14.5px;
+    margin: 4px 0 18px;
+  }
+
+  .phase-section{ margin-top: 16px; }
+  .phase-section h3{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin: 0 0 8px;
+  }
+
+  .phase-card ul{
+    margin: 0;
+    padding-left: 18px;
+    font-size: 14px;
+    color: var(--text-primary);
+  }
+  .phase-card li{ margin-bottom: 5px; }
+  .phase-card li:last-child{ margin-bottom: 0; }
+
+  .tag-row{ display:flex; flex-wrap: wrap; gap: 6px; }
+  .tag{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent-cyan);
+    background: rgba(94,200,216,0.08);
+    border: 1px solid rgba(94,200,216,0.2);
+    padding: 3px 9px;
+    border-radius: 5px;
+  }
+
+  .risk-box{
+    margin-top: 16px;
+    border-left: 3px solid var(--accent-amber);
+    background: rgba(232,163,61,0.06);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+  }
+  .risk-box strong{ color: var(--accent-amber); font-weight: 600; }
+
+  .depends{
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-tertiary);
+  }
+  .depends a{ color: var(--text-tertiary); text-decoration: underline; text-decoration-color: var(--panel-border); }
+
+  /* ---------- FOOTER ---------- */
+
+  footer{
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--panel-border);
+    color: var(--text-tertiary);
+    font-size: 12.5px;
+    text-align: center;
+  }
+  footer .meta{ font-family: var(--font-mono); margin-bottom: 6px; }
+
+  @media (max-width: 600px){
+    .wrap{ padding: 0 16px 60px; }
+    .hero{ padding: 40px 0 20px; }
+    .timeline{ padding-left: 38px; }
+    .timeline::before{ left: 12px; }
+    .phase-node{ left: -38px; width: 26px; height: 26px; font-size: 12px; }
+    .phase-card{ padding: 18px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; }
+    .phase{ opacity: 1; transform: none; }
+    html{ scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="hero-eyebrow">Internal Infrastructure · Build Plan</p>
+    <h1>Solo Interactive Comms Platform</h1>
+    <p>A self-hosted, Discord-style system for text, voice, and presence — built on the same Core API, accounts, and permissions already powering the launcher, website, and store.</p>
+
+    <div class="schematic">
+      <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing the Core API at the center, connected to the Launcher, Website, Admin Portal, Store, and Communications Platform">
+        <!-- connectors -->
+        <path class="trace" d="M 140 70 L 140 130 L 410 130 L 410 165" />
+        <path class="trace" d="M 760 70 L 760 130 L 490 130 L 490 165" />
+        <path class="trace" d="M 95 220 L 380 220 L 380 195" />
+        <path class="trace" d="M 805 220 L 520 220 L 520 195" />
+        <path class="trace focus" d="M 450 245 L 450 300" />
+
+        <!-- hub -->
+        <rect class="node-box hub" x="375" y="160" width="150" height="55" rx="6"/>
+        <text class="node-label" x="450" y="193">CORE API</text>
+
+        <!-- satellites -->
+        <rect class="node-box" x="60" y="35" width="160" height="40" rx="6"/>
+        <text class="node-label" x="140" y="60">LAUNCHER</text>
+
+        <rect class="node-box" x="680" y="35" width="160" height="40" rx="6"/>
+        <text class="node-label" x="760" y="60">WEBSITE</text>
+
+        <rect class="node-box" x="15" y="200" width="160" height="40" rx="6"/>
+        <text class="node-label" x="95" y="225">ADMIN PORTAL</text>
+
+        <rect class="node-box" x="725" y="200" width="160" height="40" rx="6"/>
+        <text class="node-label" x="805" y="225">STORE</text>
+
+        <!-- focus node -->
+        <rect class="node-box focus" x="320" y="300" width="260" height="48" rx="6"/>
+        <text class="node-label" x="450" y="329" style="fill:#E8A33D;">COMMUNICATIONS PLATFORM</text>
+        <circle class="tick" cx="335" cy="312" r="3.5"/>
+        <text class="node-label small" x="450" y="368">TEXT · VOICE · PRESENCE · FILES — this roadmap</text>
+      </svg>
+    </div>
+  </header>
+
+  <section class="progress-card" aria-label="Roadmap progress overview">
+    <div class="progress-top">
+      <span class="label">Overall progress</span>
+      <span class="count" id="progressCount"><span>0</span> of 9 phases complete</span>
+    </div>
+    <div class="segments" id="segments">
+      <div class="segment"></div><div class="segment"></div><div class="segment"></div>
+      <div class="segment"></div><div class="segment"></div><div class="segment"></div>
+      <div class="segment"></div><div class="segment"></div><div class="segment"></div>
+    </div>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-dot" style="background:var(--status-not-started)"></span>Not started</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--status-in-progress)"></span>In progress</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--status-complete)"></span>Complete</span>
+    </div>
+    <p class="update-note">Click a status badge below to preview a change. To make it permanent, open this file and change that badge's <code>data-status</code> value to <code>not-started</code>, <code>in-progress</code>, or <code>complete</code>, then save and re-upload.</p>
+  </section>
+
+  <div class="timeline" id="timeline">
+
+    <!-- PHASE 0 -->
+    <div class="phase" id="phase-0">
+      <div class="phase-node">0</div>
+      <div class="phase-card">
+        <div class="phase-head">
+          <h2 class="phase-title"><span class="num">00 /</span> Foundations</h2>
+          <button class="status-badge" data-status="not-started">Not started</button>
+        </div>
+        <p class="phase-goal">Establish identity integration and core data contracts before any platform-specific code is written.</p>
+        <div class="phase-section">
+          <h3>Deliverables</h3>
+          <ul>
+            <li>Decide whether the comms platform reads the existing account table directly, or through a shared identity service</li>
+            <li>End-to-end authentication working: a request can be resolved to a known user</li>
+            <li>Canonical permission/role model defined (server roles, channel-level overrides)</li>
+            <li>API contract conventions documented (REST verbs, error format, pagination) for every later service to follow</li>
+          </ul>
+        </div>
+        <div class="phase-section">
+          <h3>Tech</h3>
+          <div class="tag-row">
+            <span class="tag">ASP.NET Core Identity</span><span class="tag">JWT</span><span class="tag">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="risk-box"><strong>Watch for —</strong> if the existing account system isn't already exposed via an API, exposing it becomes a hidden prerequisite step.</div>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase" id="phase-1">
+      <div class="phase-node">1</div>
+      <div class="phase-card">
+        <div class="phase-head">
+          <h2 class="phase-title"><span class="num">01 /</span> Core API Skeleton</h2>
+          <button class="status-badge" data-status="not-started">Not started</button>
+        </div>
+        <p class="phase-goal">Stand up the REST surface and schema for users, permissions, and channels — no real-time component yet.</p>
+        <div class="phase-section">
+          <h3>Deliverables</h3>
+          <ul>
+            <li>User lookup and profile endpoints</li>
+            <li>Roles & permissions CRUD, including channel-level overrides</li>
+            <li>Channel CRUD for public, private, group, and DM channel types</li>
+            <li>Finalized Postgres schema: users, roles, channels, channel_members</li>
+            <li>Integration tests covering permission checks</li>
+          </ul>
+        </div>
+        <div class="phase-section">
+          <h3>Tech</h3>
+          <div class="tag-row">
+            <span class="tag">ASP.NET Core Web API</span><span class="tag">EF Core</span><span class="tag">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="risk-box"><strong>Watch for —</strong> schema mistakes here are expensive to unwind later. Get a second pass of review on the schema before moving on.</div>
+        <p class="depends">Depends on → <a href="#phase-0">Phase 0</a></p>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase" id="phase-2">
+      <div class="phase-node">2</div>
+      <div class="phase-card">
+        <div class="phase-head">
+          <h2 class="phase-title"><span class="num">02 /</span> Text Messaging</h2>
+          <button class="status-badge" data-status="not-started">Not started</button>
+        </div>
+        <p class="phase-goal">Real-time chat layered on top of the channels built in Phase 1.</p>
+        <div class="phase-section">
+          <h3>Deliverables</h3>
+          <ul>
+            <li>SignalR hub for message send/receive</li>
+            <li>Typing indicators</li>
+            <li>Read receipts</li>
+            <li>@mention parsing and notification trigger</li>
+            <li>Message history with cursor-based pagination</li>
+            <li>Message edit/delete with soft-delete flag</li>
+          </ul>
+        </div>
+        <div class="phase-section">
+          <h3>Tech</h3>
+          <div class="tag-row"><span class="tag">SignalR</span><span class="tag">PostgreSQL</span></div>
+        </div>
+        <p class="depends">Depends on → <a href="#phase-1">Phase 1</a> · Lowest-risk phase — closest to existing SignalR experience.</p>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase" id="phase-3">
+      <div class="phase-node">3</div>
+      <div class="phase-card">
+        <div class="phase-head">
+          <h2 class="phase-title"><span class="num">03 /</span> Files & Presence</h2>
+          <button class="status-badge" data-status="not-started">Not started</button>
+        </div>
+        <p class="phase-goal">Add file attachments and live presence tracking — both self-contained and safe to build in parallel.</p>
+        <div class="phase-section">
+          <h3>Deliverables</h3>
+          <ul>
+            <li>File upload endpoint with size and type validation</li>
+            <li>MinIO bucket wiring, or local disk behind a storage interface that can swap to MinIO later</li>
+            <li>Presence state machine: online / away / offline, driven by SignalR connection lifecycle plus an idle timeout</li>
+            <li>Presence broadcast to relevant channels and DMs</li>
+          </ul>
+        </div>
+        <div class="phase-section">
+          <h3>Tech</h3>
+          <div class="tag-row"><span class="tag">MinIO</span><span class="tag">SignalR</span></div>
+        </div>
+        <p class="depends">Depends on → <a href="#phase-2">Phase 2</a></p>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase" id="phase-4">
+      <div class="phase-node">4</div>
+      <div class="phase-card">
+        <div class="phase-head">
+          <h2 class="phase-title"><span class="num">04 /</span> Voice Proof of Concept</h2>
+          <button class="status-badge" data-status="not-started">Not started</button>
+        </div>
+        <p class="phase-goal">Learn mediasoup's room, producer, and consumer model on one hardcoded test channel before adding lifecycle complexity.</p>
+        <div class="phase-section">
+          <h3>Deliverables</h3>
+          <ul>
+            <li>One long-running mediasoup worker/router instance</li>
+            <li>WebRTC signaling (offer/answer/ICE) relayed through a SignalR hub</li>
+            <li>A bare test client that can join, publish audio, and hear other test users</li>
+            <li>Written reference notes on the producer/consumer/transport lifecycle, to guide Phase 5</li>
+          </ul>
+        </div>
+        <div class="phase-section">
+          <h3>Tech</h3>
+          <div class="tag-row"><span class="tag">mediasoup</span><span class="tag">WebRTC</span><span class="tag">SignalR</span></div>
+        </div>
+        <div class="risk-box"><strong>Highest unknown-unknowns —</strong> mediasoup is a low-level library, not a turnkey server. Budget extra time for the learning curve.</div>
+        <p class="depends">Depends on → <a href="#phase-3">Phase 3</a> (parallel-safe with separate people on each)</p>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase" id="phase-5">
+      <div class="phase-node">5</div>
+      <div class="phase-card">
+        <div class="phase-head">
+          <h2 class="phase-title"><span class="num">05 /</span> Voice Manager & Dynamic Lifecycle</h2>
+          <button class="status-badge" data-status="not-started">Not started</button>
+        </div>
+        <p class="phase-goal">Replace the static test instance with the full on-demand spin-up, idle-timeout, and shutdown model.</p>
+        <div class="phase-section">
+          <h3>Deliverables</h3>
+          <ul>
+            <li>Voice Manager service: checks for an existing instance per channel, starts one if absent</li>
+            <li>Connected-user tracking per voice instance</li>
+            <li>Configurable idle timer (default 5 min) that triggers automatic shutdown</li>
+            <li>Graceful handling of edge cases: user joins mid-spin-up, instance crash, simultaneous join race condition</li>
+            <li>Load test at simulated 5 / 10 / 50 / 100 user counts to confirm no architectural ceiling</li>
+          </ul>
+        </div>
+        <div class="phase-section">
+          <h3>Tech</h3>
+          <div class="tag-row"><span class="tag">mediasoup</span><span class="tag">Docker</span><span class="tag">SignalR</span></div>
+        </div>
+        <div class="risk-box"><strong>Riskiest phase in the roadmap —</strong> this is where the "self-hosted Discord" model either holds up under real concurrency or doesn't. Test failure modes deliberately, not just the happy path.</div>
+        <p class="depends">Depends on → <a href="#phase-4">Phase 4</a></p>
+      </div>
+    </div>
+
+    <!-- PHASE 6 -->
+    <div class="phase" id="phase-6">
+      <div class="phase-node">6</div>
+      <div class="phase-card">
+        <div class="phase-head">
+          <h2 class="phase-title"><span class="num">06 /</span> TURN/NAT & Containerization</h2>
+          <button class="status-badge" data-status="not-started">Not started</button>
+        </div>
+        <p class="phase-goal">Make voice connectivity reliable from outside a friendly office network, and make deployment repeatable.</p>
+        <div class="phase-section">
+          <h3>Deliverables</h3>
+          <ul>
+            <li>coturn deployed with TURN credential rotation</li>
+            <li>Test calls from at least one connection behind a symmetric or corporate NAT</li>
+            <li>Docker Compose file covering Core API, messaging, Voice Manager, mediasoup nodes, Postgres, MinIO, and coturn</li>
+            <li>Documented firewall and port requirements for self-hosting</li>
+          </ul>
+        </div>
+        <div class="phase-section">
+          <h3>Tech</h3>
+          <div class="tag-row"><span class="tag">coturn</span><span class="tag">Docker Compose</span></div>
+        </div>
+        <div class="risk-box"><strong>Watch for —</strong> NAT traversal failures are often silent. Test deliberately from multiple network types; office Wi-Fi isn't representative.</div>
+        <p class="depends">Depends on → <a href="#phase-5">Phase 5</a></p>
+      </div>
+    </div>
+
+    <!-- PHASE 7 -->
+    <div class="phase" id="phase-7">
+      <div class="phase-node">7</div>
+      <div class="phase-card">
+        <div class="phase-head">
+          <h2 class="phase-title"><span class="num">07 /</span> Admin & Moderation Tooling</h2>
+          <button class="status-badge" data-status="not-started">Not started</button>
+        </div>
+        <p class="phase-goal">Give admins visibility and control once the underlying data is already flowing reliably.</p>
+        <div class="phase-section">
+          <h3>Deliverables</h3>
+          <ul>
+            <li>Admin monitoring dashboard: active voice instances, connected users, message volume</li>
+            <li>Moderation tools: mute, kick, ban, channel lockdown</li>
+            <li>Voice statistics: instance uptime, peak concurrency per channel</li>
+            <li>Basic usage analytics</li>
+          </ul>
+        </div>
+        <div class="phase-section">
+          <h3>Tech</h3>
+          <div class="tag-row"><span class="tag">ASP.NET Core</span><span class="tag">Admin Portal integration</span></div>
+        </div>
+        <p class="depends">Depends on → <a href="#phase-6">Phase 6</a> · Low risk — mostly composition of data already available.</p>
+      </div>
+    </div>
+
+    <!-- PHASE 8 -->
+    <div class="phase" id="phase-8">
+      <div class="phase-node">8</div>
+      <div class="phase-card">
+        <div class="phase-head">
+          <h2 class="phase-title"><span class="num">08 /</span> Future Expansion</h2>
+          <button class="status-badge" data-status="not-started">Not started</button>
+        </div>
+        <p class="phase-goal">Extend the stable voice core rather than re-architecting it.</p>
+        <div class="phase-section">
+          <h3>Deliverables</h3>
+          <ul>
+            <li>Screen sharing — extends the mediasoup producer model from Phases 4–5</li>
+            <li>Video calling — same extension path</li>
+            <li>Meeting rooms / scheduled rooms</li>
+            <li>Recording</li>
+            <li>Mobile clients</li>
+            <li>Web client</li>
+            <li>Launcher integration</li>
+          </ul>
+        </div>
+        <div class="phase-section">
+          <h3>Tech</h3>
+          <div class="tag-row"><span class="tag">mediasoup</span><span class="tag">platform clients</span></div>
+        </div>
+        <div class="risk-box"><strong>Watch for —</strong> technically low risk since this extends existing primitives. The real risk is scope creep — pick one item at a time.</div>
+        <p class="depends">Depends on → <a href="#phase-5">Phase 5</a> at minimum; <a href="#phase-7">Phase 7</a> loosely. Many items can start as soon as Phase 5 is stable.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p class="meta">Last updated: June 17, 2026</p>
+    <p>Solo Interactive — Internal Comms Platform · maintained by the engineering team</p>
+  </footer>
+
+</div>
+
+<script>
+  (function(){
+    var badges = Array.prototype.slice.call(document.querySelectorAll('.status-badge'));
+    var order = ['not-started', 'in-progress', 'complete'];
+    var labels = { 'not-started': 'Not started', 'in-progress': 'In progress', 'complete': 'Complete' };
+
+    function applyStatus(badge, status){
+      badge.setAttribute('data-status', status);
+      badge.textContent = labels[status];
+    }
+
+    function recompute(){
+      var counts = { 'not-started': 0, 'in-progress': 0, 'complete': 0 };
+      badges.forEach(function(b){ counts[b.getAttribute('data-status')]++; });
+
+      var segments = document.querySelectorAll('#segments .segment');
+      var statuses = badges.map(function(b){ return b.getAttribute('data-status'); });
+      segments.forEach(function(seg, i){
+        seg.classList.remove('is-complete', 'is-progress');
+        if (statuses[i] === 'complete') seg.classList.add('is-complete');
+        else if (statuses[i] === 'in-progress') seg.classList.add('is-progress');
+      });
+
+      var countEl = document.getElementById('progressCount');
+      countEl.innerHTML = '<span>' + counts.complete + '</span> of ' + badges.length + ' phases complete';
+    }
+
+    badges.forEach(function(badge){
+      // ensure initial label matches initial data-status from the source file
+      applyStatus(badge, badge.getAttribute('data-status') || 'not-started');
+      badge.addEventListener('click', function(){
+        var current = badge.getAttribute('data-status');
+        var next = order[(order.indexOf(current) + 1) % order.length];
+        applyStatus(badge, next);
+        recompute();
+      });
+    });
+
+    recompute();
+
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduceMotion && 'IntersectionObserver' in window){
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.phase').forEach(function(p){ observer.observe(p); });
+    } else {
+      document.querySelectorAll('.phase').forEach(function(p){ p.classList.add('in-view'); });
+    }
+  })();
+</script>
+
+</body>
+</html>
